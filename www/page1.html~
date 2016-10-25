@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8"> 
+	<title>Testovacia Stranka</title>
+	<style>
+	#line{
+		width: 80%;
+		background-color: black;
+		height: 3px;
+		margin: 20px;
+	}
+	#text{
+		width: 60%;	
+	}
+	</style>
+</head>
+<body>
+<center>
+	<h1>Žilinská univerzita</h1>
+	<div id="text">	
+		<p>
+		Žilinská univerzita v Žiline (ŽU) vznikla 1. októbra 1953 vyčlenením z ČVUT ako Vysoká škola železničná. 
+		Mala 5 fakúlt: dopravnú, stavebnú, strojnícku, elektrotechnickú a vojenskú. 
+		Premenovaním Vysokej školy železničnej v roku 1959 vznikla v Prahe Vysoká škola dopravná, ktorá bola 
+		6. septembra 1960 premiestnená z Prahy do Žiliny. Po presťahovaní do Žiliny mala Vysoká škola dopravná 
+		Fakultu prevádzky a ekonomiky dopravy, Fakultu strojnícku a elektrotechnickú a Vojenskú fakultu.
+	</p>
+	</div>
+	<div id="line"></div>
+	<img src="images/logo.jpg" alt="" width="300">
+	<div id="line"></div>
+	<a href="index.html" >Hlavná Stránka</a>
+</center>
+</body>
+</html>

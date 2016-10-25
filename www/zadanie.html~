@@ -1,0 +1,118 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" >
+<title>Jednoduch&#253; webserver s podporou skriptovania v bash-i (2)</title>
+<meta name="generator" content="Bluefish 2.2.6" >
+</head>
+<div class="section">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="frios.sk.semestralky.zadania.jednoduch_webserver_s_podporou_s"></a><a class="link" href="" title="Jednoduch&#253; webserver s podporou skriptovania v bash-i (2)">Jednoduch&#253;
+          webserver s podporou skriptovania v <code class="literal">bash</code>-i (2)</a>
+</h2></div></div></div>
+<p>
+            V jazyku C/C++ implementujte s pou&#382;it&#237;m <a class="link" href="" title="Kapitola 9. Sockety">socketov</a>
+            jednoduch&#253; webov&#253; server, ktor&#253; bude umo&#382;&#328;ova&#357; paraleln&#250; obsluhu
+            viacer&#253;ch klientov s&#250;&#269;asne (met&#243;du - <a class="link" href="" title="Vytvorenie podprocesu, fork">fork</a>,
+            <a class="link" href="" title="Kapitola 7. Vl&#225;kna">vl&#225;kna</a>, <a href="" target="_top">select</a>,
+            at&#271; - si m&#244;&#382;te zvoli&#357; pod&#318;a vlastn&#233;ho uv&#225;&#382;enia). Server tie&#382;
+            mus&#237; podporova&#357; dynamick&#233; generovanie HTML k&#243;du pomocou skriptov
+            v <code class="literal">bash</code>-i.
+          </p>
+<p>
+            Server mus&#237; implementova&#357; minim&#225;lne met&#243;du GET z <a href="" target="_top">http
+            protokolu</a>, to znamen&#225;, &#382;e mus&#237; vedie&#357; obsluhova&#357; po&#382;iadavky
+            vo forme:
+          </p>
+<pre class="programlisting">GET &lt;specifikacia_suboru&gt; HTTP/1.1
+HTTP-Hlavicky
+</pre>
+<p>
+            <code class="literal">specifikacia_suboru</code> je v tvare <a class="link" href="">cesty</a>.
+            Ak je zadan&#225; cesta do adres&#225;ra alebo cesta <code class="literal">/</code> server
+            vr&#225;ti s&#250;bor <code class="literal">index.html</code> v danom adres&#225;ri ak tak&#253;
+            s&#250;bor existuje.
+          </p>
+<p>
+            Server mus&#237; vedie&#357; odosla&#357; &#318;ubovo&#318;n&#253; s&#250;bor, statick&#233; <code class="literal">.html</code>,
+            obr&#225;zky (<code class="literal">.png</code>, <code class="literal">.jpg</code>, ...), at&#271;.
+            V pr&#237;pade, &#382;e pr&#237;de od klienta po&#382;iadavka na s&#250;bor s pr&#237;ponou
+            <code class="literal">.bash</code> a tak&#253;to skript existuje, server mu odovzd&#225;
+            pr&#237;padn&#233; parametre (vyparsovan&#233; z GET-requestu), spust&#237; ho a v&#253;stup
+            tohto skriptu odo&#353;le klientovi.
+          </p>
+<p>
+            Pri spusten&#237; servera sa na pr&#237;kazovom riadku &#353;pecifikuje port, na
+            ktorom bude server prij&#237;ma&#357; po&#382;iadavky, ako aj adres&#225;r sl&#250;&#382;iaci
+            ako kore&#328;ov&#253; adres&#225;r servera. Server nesmie umo&#382;ni&#357; pr&#237;stup mimo
+            podstromu, kore&#328;ov&#233;ho adres&#225;ra (napr. pomocou cesty obsahuj&#250;cej
+            <code class="literal"><span class="emphasis"><em>..</em></span></code>). Napr&#237;klad server spusten&#253;
+            pr&#237;kazom:
+          </p>
+<pre class="programlisting">frihttp -p port -r /home/user/www/
+</pre>
+<p>
+            Spr&#237;stup&#328;uje subory v podstrome adres&#225;ra <code class="literal">/home/user/www</code>,
+            ale nie mimo neho. S&#250;bor <code class="literal">/home/user/www/index.html</code>
+            je cez prehliada&#269; dostupn&#253; ako <code class="literal">http://server/index.html</code>.
+          </p>
+<p>
+            Funk&#269;nos&#357; servera bude overen&#225; pomocou webov&#233;ho prehliada&#269;a.
+          </p>
+<p>
+            S&#250;&#269;as&#357;ou odovzd&#225;van&#233;ho rie&#353;enia, mus&#237; by&#357; aj adres&#225;r obsahuj&#250;ci
+            s&#250;bor <code class="literal">index.html</code> a aspo&#328; dva &#271;al&#353;ie <code class="literal">.html</code>
+            s&#250;bory, ktor&#233; navz&#225;jom na seba odkazuj&#250; cez <span class="emphasis"><em>hyper-linky</em></span>,
+            maj&#250; z&#225;kladn&#250; &#353;trukt&#250;ru HTML dokumentu (hlavi&#269;ku, telo, nadpisy,
+            odstavce, at&#271;.) a aspo&#328; jeden obsahuje aspo&#328; tri r&#244;zne obr&#225;zky.
+            Taktie&#382; je potrebn&#233; implementova&#357; tri bashovsk&#233; skripty (aspo&#328; jeden
+            aj s parametrami, a aspo&#328; jeden zo skriptov, tak&#253;, &#382;e vygenerovan&#233;
+            HTML bude obsahova&#357; odkazy na in&#253; skript), na ktor&#253;ch bude uk&#225;zan&#225;
+            funk&#269;nos&#357; dynamick&#233;ho generovania HTML k&#243;du.
+          </p>
+<p>
+            M&#244;&#382;te si vybra&#357; z nasledovn&#253;ch mo&#382;nost&#237; alebo implementova&#357; vlastn&#233;
+            s porovnate&#318;nou zlo&#382;itos&#357;ou:
+          </p>
+<div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; ">
+<li class="listitem">
+                Skript, ktor&#253; vygeneruje &#353;trukturovan&#253; HTML dokument s nadpisom
+                a s tabu&#318;kou, ktor&#225; bude obsahova&#357; inform&#225;cie o pou&#382;&#237;vate&#318;och
+                syst&#233;mu zo s&#250;boru <code class="literal">/etc/passwd</code> (login, meno priezvisko,
+                domovsk&#253; adres&#225;r).
+              </li>
+<li class="listitem">
+                Skript, ktor&#253; vygeneruje &#353;trukturovan&#253; HTML dokument s tabu&#318;kou,
+                ktor&#225; bude obsahova&#357; inform&#225;cie o konkr&#233;tnom pou&#382;&#237;vate&#318;ovi
+                syst&#233;mu zo s&#250;boru <code class="literal">/etc/passwd</code> na z&#225;klade zadan&#233;ho
+                loginu (meno priezvisko, domovsk&#253; adres&#225;r, shell).
+              </li>
+<li class="listitem">
+                Skript, ktor&#253; vygeneruje &#353;trukt&#250;rovan&#253; HTML dokument s nadpisom
+                a s tabu&#318;kou, ktor&#225; bude obsahova&#357; inform&#225;cie o procesoch be&#382;iacich
+                pod pou&#382;&#237;vate&#318;sk&#253;m &#250;&#269;tom servera (vi&#271; pr&#237;kaz <a href="" target="_top">ps</a>).
+              </li>
+<li class="listitem">
+                Skript, ktor&#253; vygeneruje &#353;trukt&#250;rovan&#253; HTML dokument s tabu&#318;kou
+                obsahuj&#250;cou inform&#225;cie o procesore zo s&#250;boru <code class="literal">/proc/cpuinfo</code>.
+              </li>
+<li class="listitem">
+                Skript ktor&#253; vygeneruje &#269;iastkov&#253; HTML dokument, napr&#237;klad jeden
+                element <code class="literal">div</code> alebo <code class="literal">span</code> s &#269;asto
+                sa meniacimi inform&#225;ciami (d&#225;tum a &#269;as - <code class="literal">bashcmd date</code>,
+                alebo <code class="literal">uptime</code>, at&#271;. spolu so statickou HTML str&#225;nkou,
+                do ktorej bude tento na&#269;&#237;tan&#253; napr&#237;klad pomocou AJAX-u.
+              </li>
+</ul></div>
+</div>
+<table xmlns:rev="http://www.cs.rpi.edu/~gregod/boost/tools/doc/revision" width="100%"><tr>
+<td align="left"></td>
+<td align="right"><div class="copyright-footer">Copyright &#169; 2014, 2015 Katedra informatiky, Fakulta
+        riadenia a informatiky, &#381;U
+</div></td>
+</tr></table>
+<hr>
+
+<a href="index.html" >Hlavná Stránka</a>
+
+</body>
+</html>
