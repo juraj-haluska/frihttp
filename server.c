@@ -26,8 +26,8 @@
 #include <sys/sendfile.h>
 
 /**
- * Function fills buffer
- * with users request.
+ * Function fills buffer with users request.
+ *
  * @param[in] cliFd 	Clients file descriptor.
  * @param[in,out] buff	Buffer for request.
  * @param[in] buffSize	Size of buffer.
@@ -40,9 +40,10 @@ void getRequest(int cliFd, char * buff,int buffSize){
 }
 
 /**
- * Function will parse request in buffer buff
- * and will write values to request structure..
- * @param[in] buff		Buffer with request.
+ * Function parses request in buffer and
+ * writes values to request structure.
+ *
+ * @param[in] buff	Buffer with request.
  * @param[out] request	Structure of request.
  */
 int parseRequest(char * buff, struct request_t * request){
@@ -78,8 +79,9 @@ int parseRequest(char * buff, struct request_t * request){
 }
 
 /**
- * This function will parse uri in structure
- * request and save data to it.
+ * This function parses uri in structure
+ * request and saves data to it.
+ *
  * @param[in,out] request Structure request.
  */
 int parseUri(struct request_t * request){
@@ -122,8 +124,9 @@ int parseUri(struct request_t * request){
 }
 
 /**
- * Funkction will check if file exists
- * and if exists, will return its size.
+ * Function checks if file exists
+ * and if exists, it will return its size.
+ *
  * @param[in] filename	File name.
  * @retval Size of file, if does not exists 0.
  */
@@ -135,10 +138,11 @@ int fileExist(char *filename) {
 }
 
 /**
- * Function will create and check path to file
+ * Function creates and checks path to file.
+ *
  * @param[in,out] request	Structure of request.
- * @param[in] data			Structure Data, which contains path to rootdir.
- * @retval 					If success will return 1.
+ * @param[in] data		Structure Data, which contains path to rootdir.
+ * @retval 			If success will return 1.
  */
 int makePath(struct request_t * request,struct thData * Data){
 	char temp[URI_LENGTH];
@@ -183,12 +187,13 @@ int makePath(struct request_t * request,struct thData * Data){
 }
 
 /**
- * Function will write line on filedescriptor.
+ * Function writes line on filedescriptor.
  * If outout string is NULL function
- * will return CRLF on filedescriptor
+ * returns CRLF on filedescriptor.
+ *
  * @param[in] line	Pointer on string.
  * @param[in] cliFd	Clients filedescriptor.
- * @retval			If successful 1 else 0.
+ * @retval		If successful 1 else 0.
  */
 int writeln(char * line,int cliFd){
 	char lbuf[LINE_LENGTH];
@@ -208,6 +213,7 @@ int writeln(char * line,int cliFd){
 
 /**
  * Function sends message no. 404.
+ *
  * @param[in] cliFd Clients filedescriptor.
  * @param[in] uri	Pointer on string with filename.
  */
@@ -227,6 +233,7 @@ void error404(int cliFd,char * uri){
 
 /**
  * Returns messsage no. 400.
+ *
  * @param[in] cliFd Clients filedescriptor.
  */
 void error400(int cliFd){
@@ -244,6 +251,7 @@ void error400(int cliFd){
 
 /**
  * Send messsage no. 200.
+ *
  * @param[in] cliFd Clients filedescriptor.
  */
 void ok200(int cliFd){
@@ -258,10 +266,11 @@ void ok200(int cliFd){
 }
 
 /**
- * Function will execute bash script with
- * parameters from structure request.
+ * Function executes bash script with
+ * parameters from request struct.
+ *
  * @param[in] request	Structure request.
- * @param[in] Data		Data structure of thread containing clients filedescriptor.
+ * @param[in] Data	Data structure of thread containing clients filedescriptor.
  */
 void obsluzBash(struct request_t * request,struct thData * Data){
 	int bashPipe[2];
@@ -293,8 +302,9 @@ void obsluzBash(struct request_t * request,struct thData * Data){
 /**
  * Function sends file on clients filedescriptor
  * Uses unix function sendfile.
+ *
  * @param[in] request	Structure request.
- * @param[in] cliFd		Clients filedescriptor.
+ * @param[in] cliFd	Clients filedescriptor.
  */
 void sendFile(struct request_t * request, int cliFd){
     int file;
@@ -313,6 +323,7 @@ void sendFile(struct request_t * request, int cliFd){
 
 /**
  * Main function of thread.
+ *
  * @param[in] params	Dynamically allocated structure thData.
  */
 void * Obsluz(void * params){

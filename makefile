@@ -1,6 +1,6 @@
 OUT = server
 CC = gcc
-OPT = -lpthread -Wall
+OPT = -pthread -Wall
 
 all:
 	$(CC) $(OPT) ${OUT}.c -o ${OUT}
